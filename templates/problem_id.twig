@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title>Problem ID = {{ id }}</title>
+</head>
+<body style="font-family:'Lucida Console', Monaco, monospace;">
+
+	<h1><em>project555</em></h1>
+	<h3>Problem ID = {{ id }}</h3>	
+
+	<h3>Info:</h3>
+
+	<ul>
+		<li>Number of rows: .... <em>{{ rows }}</em></li>
+		<li>Number of sides: ... <em>{{ sides }}</em></li>
+		<li>Objective sum: ..... <em>{{ sum }}</em></li>
+		<li>Original layout:<br /><br />        <table>{{ original|raw }}</table></li>
+	</ul>
+
+	<h3>Solutions:</h3>
+
+	<ul>
+		<li>Number of solutions: <em>{{ solu_no }}</em></li>
+		<li>Layout of solutions: <br /> {{ spoiler1|raw }} {{ solutions|raw }} {{ spoiler2|raw }} </li> 
+	</ul>
+
+	<a href="/project555/index.php/home">HOME</a>
+
+	<h4>{{ error }}<h4>
+
+	{{ dump }}
+
+</body>
+</html>
