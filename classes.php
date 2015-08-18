@@ -6,7 +6,7 @@ class Problem
 	public $objective_sum;
 	public $original_layout;
 
-	function __construct($objective sum, $original_layout)
+	function __construct($objective_sum, $original_layout)
 	{
 		$this->sum = $objective_sum;
 		$this->layout = $original_layout;
