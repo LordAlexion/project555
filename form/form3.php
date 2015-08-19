@@ -36,6 +36,44 @@ sleep(2);
 require_once __DIR__.'/../solver.php';
 
 
+echo "No. of rows:\n<br />".$no_of_rows."\n<br />";
+echo "No. of sides:\n<br />".$no_of_sides."\n<br />";
+echo "Objective sum:\n<br />".$objective_sum."\n<br />";
+$problem_encoded = json_encode($layout);
+echo "Problem JSON:\n<br />".$problem_encoded."\n<br />";
+echo "Solution count:\n<br />".$solution_count."\n<br />";
+echo "Solution JSON:\n<br />";
+
+if ($solutions == NULL)
+{
+	echo "Error finding solution(s)\n";
+}
+else 
+{
+	foreach ($solutions as $solution)
+	{
+		$x = 0;
+		$y = 0;
+	
+		while ($y < $no_of_rows)
+		{
+			while ($x < $no_of_sides)
+			{
+				$transpose[$y][$x] = $solution[$x][$y];
+				$x++;
+			}
+			$x = 0;
+			$y++;
+		}
+		$solution_encoded = json_encode($transpose);
+		echo $solution_encoded."\n<br />";
+	}
+}
+
+echo "\n";
+
+
+
 /////////////////////////////////////////    ///
 
 

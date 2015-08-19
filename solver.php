@@ -2,22 +2,10 @@
 
 
 /////////////////////////////////////////    REQUIRED VALUES    ///
-/*
 
-$objective_sum = 240;
+//$objective_sum = 
+//$layout = array(
 
-$layout = array(
-	array(65, 15, 80, 30),
-	array(5, 45, 30, 20),
-	array(35, 20, 45, 15),
-	array(20, 35, 50, 30),
-	array(25, 30, 25, 15),
-	array(5, 55, 10, 10),
-	array(10, 55, 10, 5),
-	array(45, 20, 30, 70),
-);
-
-*/
 /////////////////////////////////////////    VARIABLES    ///
 
 
@@ -99,41 +87,25 @@ while ($i < $max_iterations)
 /////////////////////////////////////////    OUTPUT    ///
 
 
-echo "No. of rows:\n<br />".$no_of_rows."\n<br />";
-echo "No. of sides:\n<br />".$no_of_sides."\n<br />";
-echo "Objective sum:\n<br />".$objective_sum."\n<br />";
-$problem_encoded = json_encode($layout);
-echo "Problem JSON:\n<br />".$problem_encoded."\n<br />";
-echo "Solution count:\n<br />".$solution_count."\n<br />";
-echo "Solution JSON:\n<br />";
+foreach ($solutions as $solution)
+{
+	$x = 0;
+	$y = 0;
 
-if ($solutions == NULL)
-{
-	echo "Error finding solution(s)\n";
-}
-else 
-{
-	foreach ($solutions as $solution)
+	while ($y < $no_of_rows)
 	{
-		$x = 0;
-		$y = 0;
-	
-		while ($y < $no_of_rows)
+		while ($x < $no_of_sides)
 		{
-			while ($x < $no_of_sides)
-			{
-				$transpose[$y][$x] = $solution[$x][$y];
-				$x++;
-			}
-			$x = 0;
-			$y++;
+			$transpose[$y][$x] = $solution[$x][$y];
+			$x++;
 		}
-		$solution_encoded = json_encode($transpose);
-		echo $solution_encoded."\n<br />";
+		$x = 0;
+		$y++;
 	}
+	$solution_std[] = $transpose;
+	$solution_encoded[] = json_encode($transpose);
 }
 
-echo "\n";
 
 
 

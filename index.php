@@ -7,7 +7,7 @@ $app = new Silex\Application();
 require_once __DIR__.'/../silex/vendor/twig/twig/lib/Twig/Autoloader.php';
 Twig_Autoloader::register();
 
-require_once __DIR__.'/db_functions_pdo.php';
+require_once __DIR__.'/db_functions.php';
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/templates',));
 
