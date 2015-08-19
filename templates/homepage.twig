@@ -13,14 +13,14 @@
 			<br /><br />
 			<ol>
 
-				{% for layout in layouts %}
+				{% for i in info %}
 
 					<li>
-						Objective: {{ layout.sum }}; 
-						Sides: {{ layout.sides }}; 
-						Rows: {{ layout.rows }}; 
-						<a href="/project555/index.php/problem/{{ layout.problem_id }}">
-							ID: {{ layout.problem_id }}
+						Objective: {{ i.sum }}; 
+						Sides: {{ i.sides }}; 
+						Rows: {{ i.rows }}; 
+						<a href="/project555/index.php/problem/{{ i.problem_id }}">
+							ID: {{ i.problem_id }}
 						</a>
 					</li>
 

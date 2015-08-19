@@ -1,36 +1,58 @@
 <?php
 
+require_once __DIR__.'/solve_functions.php';
+
+/////////////////////////////////////////    CLASSES    ///
+
+
 class problem
 {
-	function getSolutions()
-	{
-		$problem_id = $this->problem_id;
-		$no_of_rows = $this->rows;
-		$no_of_sides = $this->sides;
-		$objective_sum = $this->sum;
-		$layout = json_decode($this->start_layout);
-
-		require_once __DIR__."/solver.php"; // requests solution-finding script
-
-		return $solution_std;
-	}
+	public $problem_id = NULL;
+	public $rows = NULL;
+	public $sides = NULL;
+	public $sum = NULL;
+	public $layout = NULL;
 
 	function getInfo()
 	{
-		$info['id'] = $this->problem_id;
+		$info['pid'] = $this->problem_id;
 		$info['rows'] = $this->rows;
 		$info['sides'] = $this->sides;
 		$info['sum'] = $this->sum;
-		$info['layout'] = print_r(json_decode($this->start_layout), true);
+		$info['layout'] = json_decode($this->start_layout);
 
-	//	echo "ID = {$info['id']}\nRows = {$info['rows']}\nSides = {$info['sides']}\nSum = {$info['sum']}\nLayout = {$info['layout']}\n";
 		return $info;
+	}
+
+	function getSolutions()
+	{
+		$info['pid'] = $this->problem_id;
+		$info['rows'] = $this->rows;
+		$info['sides'] = $this->sides;
+		$info['sum'] = $this->sum;
+		$info['layout'] = json_decode($this->start_layout);
+
+		$solutions = solve($info['sides'], $info['rows'], $info['layout'], $info['sum']);
+		$solutions = transpEncode($solutions, false);
+
+		return $solutions;
 	}
 }
 
 class solution
 {
-	//function 
+	public $solution_id = NULL;
+	public $problem_id = NULL;
+	public $solution = NULL;
+
+	function getInfo()
+	{
+		$info['sid'] = $this->solution_id;
+		$info['pid'] = $this->problem_id;
+		$info['solution'] = json_decode($this->solution);
+
+		return $info;
+	}
 }
 
 
@@ -46,7 +68,7 @@ try {
     $dbh = new PDO("mysql:host=$hostname;dbname=numberwang", $username, $password);
 
  
-/////////////////////////////////////////    ///
+/////////////////////////////////////////    QUERIES    ///
 
 
 	$query = "SELECT * FROM `problems`";
@@ -57,8 +79,12 @@ try {
 	$stmt = $dbh->query($query);
 	$obSol = $stmt->fetchAll(PDO::FETCH_CLASS, 'solution');
 
+	$query = "SELECT * FROM `problems` ORDER BY sum";
+	$stmt = $dbh->query($query);
+	$allProb = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-/////////////////////////////////////////    ///
+
+/////////////////////////////////////////    EXCEPTION    ///
 
 
 }
@@ -67,4 +93,6 @@ catch(PDOException $e) {
 }
 
 
-$obProb[2]->getInfo();
+
+
+

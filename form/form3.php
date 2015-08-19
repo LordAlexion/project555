@@ -10,35 +10,31 @@
 
 <?php
 
-function test_input($data)
-{
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
-}
 
 $layout_str = $_POST["value"];
-$objective_sum = $_POST["rows"];
+$sum = $_POST["rows"];
 
-foreach ($layout_str as $nshknxz) 
+foreach ($layout_str as $str) 
 {
-	$layout[] = array_map('intval', $nshknxz);
+	$layout[] = array_map('intval', $str);
 }
 
-sleep(2);
+$rows = count($layout);
+$sides = count($layout[0]);
 
 //echo "<pre>";
 //print_r($layout);
 //echo "</pre>";
 //echo "<br /><br />";
 
-require_once __DIR__.'/../solver.php';
+require_once __DIR__.'/../solve_functions.php';
 
+$solutions = solve($rows, $sides, $layout, $sum);
+$solution_count = count($solutions);
 
-echo "No. of rows:\n<br />".$no_of_rows."\n<br />";
-echo "No. of sides:\n<br />".$no_of_sides."\n<br />";
-echo "Objective sum:\n<br />".$objective_sum."\n<br />";
+echo "No. of rows:\n<br />".$rows."\n<br />";
+echo "No. of sides:\n<br />".$sides."\n<br />";
+echo "Objective sum:\n<br />".$sum."\n<br />";
 $problem_encoded = json_encode($layout);
 echo "Problem JSON:\n<br />".$problem_encoded."\n<br />";
 echo "Solution count:\n<br />".$solution_count."\n<br />";
@@ -55,9 +51,9 @@ else
 		$x = 0;
 		$y = 0;
 	
-		while ($y < $no_of_rows)
+		while ($y < $rows)
 		{
-			while ($x < $no_of_sides)
+			while ($x < $sides)
 			{
 				$transpose[$y][$x] = $solution[$x][$y];
 				$x++;
@@ -150,7 +146,7 @@ function find_id($dbh, $no_of_rows, $no_of_sides, $objective_sum)
 
 
 
-$problem_id = find_id($dbh, $no_of_rows, $no_of_sides, $objective_sum);
+$problem_id = find_id($dbh, $rows, $sides, $sum);
 
 if ($problem_id != NULL)
 {	
@@ -159,10 +155,10 @@ if ($problem_id != NULL)
 }
 elseif ($solutions != NULL)
 {
-	upload1($dbh, $no_of_rows, $no_of_sides, $objective_sum, $layout);
+	upload1($dbh, $rows, $sides, $sum, $layout);
 	echo "<br />Inserted problem information\n<br />";
-	$problem_id = find_id($dbh, $no_of_rows, $no_of_sides, $objective_sum);
-	upload2($dbh, $solutions, $no_of_rows, $no_of_sides, $problem_id);
+	$problem_id = find_id($dbh, $rows, $sides, $sum);
+	upload2($dbh, $solutions, $rows, $sides, $problem_id);
 	echo "Uploaded solution(s)\n<br />";
 	echo "\n<br />";
 	echo "It has been assigned the ID $problem_id\n";
