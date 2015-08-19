@@ -52,20 +52,6 @@ catch(PDOException $e) {
 }
 
 
-function does_exist($dbh, $no_of_rows, $no_of_sides, $objective_sum, $layout) // checking to see whether problem already exists
-{
-	$encoded = json_encode($layout);
-	$query = "SELECT problem_id FROM problems WHERE rows = :no_of_rows AND sides = :no_of_sides AND sum = :objective_sum AND start_layout = :encoded";
-	$stmt = $dbh->prepare($query);
-	$stmt->bindParam(':no_of_rows', $no_of_rows); 
-	$stmt->bindParam(':no_of_sides', $no_of_sides); 
-	$stmt->bindParam(':objective_sum', $objective_sum); 
-	$stmt->bindParam(':encoded', $encoded); 
-	$stmt->execute();
-	$result = $stmt->fetch(PDO::FETCH_NUM);
-	return $result[0];
-}
-
 function upload1($dbh, $no_of_rows, $no_of_sides, $objective_sum, $layout)
 {
 	$encoded = json_encode($layout);
@@ -126,11 +112,9 @@ function find_id($dbh, $no_of_rows, $no_of_sides, $objective_sum)
 
 
 
-
-$existence = does_exist($dbh, $no_of_rows, $no_of_sides, $objective_sum, $layout);
 $problem_id = find_id($dbh, $no_of_rows, $no_of_sides, $objective_sum);
 
-if ($existence === $problem_id)
+if ($problem_id != NULL)
 {	
 	echo "<br /><br />\nThis puzzle already exists in our database :) it's ID is $problem_id";
 	echo "<br /><br /><a href=\"/project555/index.php/home\">HOME</a> <a href=\"/project555/index.php/problem/$problem_id\">Problem ID $problem_id</a>";

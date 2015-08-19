@@ -18,7 +18,7 @@ catch(PDOException $e) {
 
 
 
-function decode($encoded_data) // decodes data from JSON format to a PHP array
+function decode_layout($encoded_data) // decodes original layout from JSON format to a PHP array
 {
 	foreach ($encoded_data as $value) {
 		$decoded_data[] = json_decode($value, true);
@@ -28,7 +28,7 @@ function decode($encoded_data) // decodes data from JSON format to a PHP array
 
 
 
-function decode2($encoded_data) // decodes data from JSON format to a PHP array
+function decode_solutions($encoded_data) // decodes solutions from JSON format to a PHP array
 {
 	foreach ($encoded_data as $value) {
 		$decoded_data[] = json_decode($value[0], true);
